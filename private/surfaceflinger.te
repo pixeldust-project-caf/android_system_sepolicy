@@ -19,7 +19,6 @@ hal_client_domain(surfaceflinger, hal_codec2)
 hal_client_domain(surfaceflinger, hal_omx)
 hal_client_domain(surfaceflinger, hal_configstore)
 hal_client_domain(surfaceflinger, hal_power)
-hal_client_domain(surfaceflinger, hal_bufferhub)
 allow surfaceflinger hidl_token_hwservice:hwservice_manager find;
 
 # Perform Binder IPC.
@@ -90,8 +89,6 @@ r_dir_file(surfaceflinger, dumpstate)
 # provider as well
 #add_service(surfaceflinger, surfaceflinger_service)
 allow surfaceflinger surfaceflinger_service:service_manager { add find };
-
-add_service(surfaceflinger, vrflinger_vsync_service)
 
 allow surfaceflinger mediaserver_service:service_manager find;
 allow surfaceflinger permission_service:service_manager find;

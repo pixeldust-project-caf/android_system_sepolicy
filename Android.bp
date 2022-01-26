@@ -790,6 +790,9 @@ se_policy_cil {
     src: ":userdebug_plat_sepolicy.conf",
     additional_cil_files: ["private/technical_debt.cil"],
     debug_ramdisk: true,
+    dist: {
+        targets: ["droidcore"],
+    },
 }
 
 // A copy of the userdebug_plat_policy in GSI.
@@ -1151,6 +1154,33 @@ se_policy_cil {
     filter_out: [":reqd_policy_mask.cil"],
     secilc_check: false,
     installable: false,
+}
+
+// bug_map - Bug tracking information for selinux denials loaded by auditd.
+se_filegroup {
+    name: "bug_map_files",
+    srcs: ["bug_map"],
+}
+
+se_bug_map {
+    name: "plat_bug_map",
+    srcs: [":bug_map_files"],
+    stem: "bug_map",
+}
+
+se_bug_map {
+    name: "system_ext_bug_map",
+    srcs: [":bug_map_files"],
+    stem: "bug_map",
+    system_ext_specific: true,
+}
+
+se_bug_map {
+    name: "vendor_bug_map",
+    srcs: [":bug_map_files"],
+    // Legacy file name of the vendor partition bug_map.
+    stem: "selinux_denial_metadata",
+    vendor: true,
 }
 
 //////////////////////////////////

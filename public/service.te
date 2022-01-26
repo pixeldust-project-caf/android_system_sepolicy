@@ -64,6 +64,7 @@ type app_search_service, app_api_service, ephemeral_app_api_service, system_serv
 type appops_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type appwidget_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type assetatlas_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
+type attestation_verification_service, app_api_service, system_server_service, service_manager_type;
 type audio_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type auth_service, app_api_service, system_server_service, service_manager_type;
 type autofill_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
@@ -218,6 +219,7 @@ type timezone_service, system_server_service, service_manager_type;
 type timezonedetector_service, app_api_service, system_server_service, service_manager_type;
 type translation_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type trust_service, app_api_service, system_server_service, service_manager_type;
+type tv_iapp_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type tv_input_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type tv_tuner_resource_mgr_service, app_api_service, system_server_service, service_manager_type;
 type uimode_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
@@ -230,6 +232,7 @@ type uwb_service, app_api_service, system_server_service, service_manager_type;
 type vcn_management_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type vibrator_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type vibrator_manager_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
+type virtual_device_service, system_api_service, system_server_service, service_manager_type;
 type voiceinteraction_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type vpn_management_service, app_api_service, system_server_service, service_manager_type;
 type vr_manager_service, system_server_service, service_manager_type;
@@ -246,6 +249,7 @@ type wpantund_service, system_api_service, service_manager_type;
 type tethering_service, app_api_service, ephemeral_app_api_service, system_server_service, service_manager_type;
 type emergency_affordance_service, system_server_service, service_manager_type;
 type hal_wifi_hostapd_service, vendor_service, protected_service, service_manager_type;
+type hal_wifi_supplicant_service, vendor_service, protected_service, service_manager_type;
 
 ###
 ### HAL Services
@@ -258,6 +262,8 @@ type hal_contexthub_service, vendor_service, protected_service, service_manager_
 type hal_face_service, vendor_service, protected_service, service_manager_type;
 type hal_fingerprint_service, vendor_service, protected_service, service_manager_type;
 type hal_gnss_service, vendor_service, protected_service, service_manager_type;
+type hal_graphics_composer_service, vendor_service, protected_service, service_manager_type;
+type hal_health_service, vendor_service, protected_service, service_manager_type;
 type hal_health_storage_service, vendor_service, protected_service, service_manager_type;
 type hal_identity_service, vendor_service, protected_service, service_manager_type;
 type hal_keymint_service, vendor_service, protected_service, service_manager_type;
@@ -267,8 +273,16 @@ type hal_neuralnetworks_service, vendor_service, service_manager_type;
 type hal_oemlock_service, vendor_service, protected_service, service_manager_type;
 type hal_power_service, vendor_service, protected_service, service_manager_type;
 type hal_power_stats_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_config_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_data_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_messaging_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_modem_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_network_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_sim_service, vendor_service, protected_service, service_manager_type;
+type hal_radio_voice_service, vendor_service, protected_service, service_manager_type;
 type hal_rebootescrow_service, vendor_service, protected_service, service_manager_type;
 type hal_remotelyprovisionedcomponent_service, vendor_service, protected_service, service_manager_type;
+type hal_sensors_service, vendor_service, protected_service, service_manager_type;
 type hal_secureclock_service, vendor_service, protected_service, service_manager_type;
 type hal_sharedsecret_service, vendor_service, protected_service, service_manager_type;
 type hal_system_suspend_service, protected_service, service_manager_type;
@@ -276,6 +290,7 @@ type hal_tv_tuner_service, vendor_service, protected_service, service_manager_ty
 type hal_uwb_service, vendor_service, protected_service, service_manager_type;
 type hal_vibrator_service, vendor_service, protected_service, service_manager_type;
 type hal_weaver_service, vendor_service, protected_service, service_manager_type;
+type hal_nlinterceptor_service, vendor_service, protected_service, service_manager_type;
 
 ###
 ### Neverallow rules
