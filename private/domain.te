@@ -304,7 +304,9 @@ neverallow {
 # contains boot class path and system server AOT artifacts following an ART APEX Mainline update.
 neverallow {
   domain
-  # art processes
+  # art-related processes
+  -composd
+  -compos_fd_server
   -odrefresh
   -odsign
   # others
@@ -315,7 +317,9 @@ neverallow {
 
 neverallow {
   domain
-  # art processes
+  # art-related processes
+  -composd
+  -compos_fd_server
   -odrefresh
   -odsign
   # others
@@ -511,6 +515,7 @@ full_treble_only(`
     -vendor_public_framework_file
     -vendor_public_lib_file
     -vendor_task_profiles_file
+    -vendor_uuid_mapping_config_file
     -vndk_sp_file
   }:file *;
 ')
@@ -564,6 +569,9 @@ enforce_debugfs_restriction(`
   }:file no_rw_file_perms;
 ')
 
+# Restrict write access to etm sysfs interface.
+neverallow { domain -ueventd -vendor_init } sysfs_devices_cs_etm:file no_w_file_perms;
+
 # Restrict write access to shell owned files. The /data/local/tmp directory is
 # untrustworthy, and non-allowed domains should not be trusting any content in
 # those directories. We allow shell files to be passed around by file
@@ -579,7 +587,24 @@ neverallow {
   userdebug_or_eng(`-crosvm')
 } shell_data_file:file open;
 
+# respect system_app sandboxes
+neverallow {
+  domain
+  -appdomain
+  -system_server #populate com.android.providers.settings/databases/settings.db.
+  -installd # creation of app sandbox
+  -iorap_inode2filename
+  -traced_probes # resolve inodes for i/o tracing.
+                 # only needs open and read, the rest is neverallow in
+                 # traced_probes.te.
+} system_app_data_file:dir_file_class_set { create unlink open };
+neverallow {
+  isolated_app
+  ephemeral_app
+  priv_app
+  supplemental_process
+  untrusted_app_all
+} system_app_data_file:dir_file_class_set { create unlink open };
 
 ###Mediaserverwrapper 64 Bit Property  addition
 get_prop(domain, vendor_medsrv_set_64b)
-

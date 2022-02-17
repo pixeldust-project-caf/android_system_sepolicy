@@ -99,9 +99,11 @@
 # inputs are matched on a key value rule line.
 #
 
-# only the system server can be in system_server domain
+# only the system server can be assigned the system_server domains
 neverallow isSystemServer=false domain=system_server
+neverallow isSystemServer=false domain=system_server_startup
 neverallow isSystemServer="" domain=system_server
+neverallow isSystemServer="" domain=system_server_startup
 
 # system domains should never be assigned outside of system uid
 neverallow user=((?!system).)* domain=system_app
@@ -134,6 +136,9 @@ neverallow user=shell name=((?!com\.android\.shell).)*
 neverallow isEphemeralApp=true domain=((?!ephemeral_app).)*
 
 isSystemServer=true domain=system_server_startup
+
+# supplemental_process must run in the supplemental_process domain
+neverallow name=com.android.supplemental.process domain=((?!supplemental_process).)*
 
 user=_app isPrivApp=true name=com.android.traceur domain=traceur_app type=app_data_file levelFrom=all
 user=_app isPrivApp=true name=com.android.remoteprovisioner domain=remote_prov_app type=app_data_file levelFrom=all
@@ -169,3 +174,4 @@ user=_app minTargetSdkVersion=26 domain=untrusted_app_27 type=app_data_file leve
 user=_app domain=untrusted_app_25 type=app_data_file levelFrom=user
 user=_app minTargetSdkVersion=28 fromRunAs=true domain=runas_app levelFrom=all
 user=_app fromRunAs=true domain=runas_app levelFrom=user
+user=_app seinfo=supplemental_process name=com.android.supplemental.process domain=supplemental_process type=app_data_file levelFrom=user

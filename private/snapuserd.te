@@ -8,6 +8,8 @@ init_daemon_domain(snapuserd)
 
 allow snapuserd kmsg_device:chr_file rw_file_perms;
 
+allow snapuserd self:capability ipc_lock;
+
 # Allow snapuserd to reach block devices in /dev/block.
 allow snapuserd block_device:dir search;
 
@@ -40,6 +42,7 @@ allow snapuserd kernel:fd use;
 
 # snapuserd.* properties
 set_prop(snapuserd, snapuserd_prop)
+get_prop(snapuserd, virtual_ab_prop)
 
 # For inotify watching for /dev/socket/snapuserd_proxy to appear.
 allow snapuserd tmpfs:dir { read watch };

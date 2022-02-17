@@ -1,9 +1,24 @@
+# Copyright 2021 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from optparse import OptionParser
 from optparse import Option, OptionValueError
 import os
 import policy
 import re
 import sys
+import distutils.ccompiler
 
 #############################################################
 # Tests
@@ -127,24 +142,21 @@ Tests = [
 ]
 
 if __name__ == '__main__':
-    usage = "sepolicy_tests -l $(ANDROID_HOST_OUT)/lib64/libsepolwrap.so "
-    usage += "-f vendor_file_contexts -f "
+    usage = "sepolicy_tests -f vendor_file_contexts -f "
     usage +="plat_file_contexts -p policy [--test test] [--help]"
     parser = OptionParser(option_class=MultipleOption, usage=usage)
     parser.add_option("-f", "--file_contexts", dest="file_contexts",
             metavar="FILE", action="extend", type="string")
     parser.add_option("-p", "--policy", dest="policy", metavar="FILE")
-    parser.add_option("-l", "--library-path", dest="libpath", metavar="FILE")
     parser.add_option("-t", "--test", dest="test", action="extend",
             help="Test options include "+str(Tests))
 
     (options, args) = parser.parse_args()
 
-    if not options.libpath:
-        sys.exit("Must specify path to libsepolwrap library\n" + parser.usage)
-    if not os.path.exists(options.libpath):
-        sys.exit("Error: library-path " + options.libpath + " does not exist\n"
-                + parser.usage)
+    libpath = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+        "libsepolwrap" + distutils.ccompiler.new_compiler().shared_lib_extension)
+    if not os.path.exists(libpath):
+        sys.exit("Error: libsepolwrap does not exist. Is this binary corrupted?\n")
 
     if not options.policy:
         sys.exit("Must specify monolithic policy file\n" + parser.usage)
@@ -159,7 +171,7 @@ if __name__ == '__main__':
             sys.exit("Error: File_contexts file " + f + " does not exist\n" +
                     parser.usage)
 
-    pol = policy.Policy(options.policy, options.file_contexts, options.libpath)
+    pol = policy.Policy(options.policy, options.file_contexts, libpath)
 
     results = ""
     # If an individual test is not specified, run all tests.
